@@ -1,0 +1,245 @@
+CREATE TABLE prj_MallDetails (
+MallID INT NOT NULL,
+MallName VARCHAR(80) NOT NULL,
+MallAddress VARCHAR(200) NOT NULL,
+OwnerName VARCHAR(80) NOT NULL,
+Email VARCHAR(100) NOT NULL,
+Phone NUMBER(10),
+PRIMARY KEY (MallID)
+);
+
+INSERT ALL
+INTO prj_malldetails VALUES(001, 'Fairview Mall', 'abc Street, Toronto M34XXX','Azad Singh','FairviewMall@hotmail.com',1111111111)
+INTO prj_malldetails VALUES(002, 'Eaton Centre', 'xyz Street, Toronto M89XXX','Awar Jodha','EatonCentre@hotmail.com',2222222222)
+INTO prj_malldetails VALUES(003, 'York Shopping Centre', 'wra Avenue, Toronto M44XXX','Mike Chaudhary','YorkShopping@torontogmail.com',3333333333)
+INTO prj_malldetails VALUES(004, 'Pacific Mall', 'WRQ Blvd, Markham M67XXX','John Thakur','PacificMall@hotmail.com',4444444444)
+INTO prj_malldetails VALUES(005, 'Square One', 'Haruk Street, Toronto M97XXX','Veer Ibrahim','SquareOne@gmail.com',5555555555)
+INTO prj_malldetails VALUES(006, 'Magic Center', 'Tynanol Street, Missisuaga M36XXX','Karan Malik','MagicCenter@gmail.com',6666666666)
+INTO prj_malldetails VALUES(007, 'Sharma Shopping Centre', 'Disprin, Toronto M12XXX','Charles Steven','SharmaShopping@yahoo.com',7777777777)
+SELECT * FROM dual;
+
+
+CREATE TABLE prj_Store (
+StoreID VARCHAR(20) NOT NULL,
+MallID INT NOT NULL,
+StoreName VARCHAR(50) NOT NULL,
+StoreContactName VARCHAR(30) NOT NULL,
+StorePhone NUMBER(10) NOT NULL,
+StoreMail VARCHAR(80) NOT NULL,
+StoreType  VARCHAR(50) NOT NULL,
+PRIMARY KEY (StoreID),
+CONSTRAINT store_mall FOREIGN KEY (MallID) REFERENCES prj_MallDetails(MallID)
+);
+
+INSERT ALL
+INTO prj_Store VALUES('M001-S001', 001, 'NIKE', 'Macey Key', 1010010001, 'NIKE@hotmail.com', 'Clothing,Footwear')
+INTO prj_Store VALUES('M001-S002', 001, 'ADIDAS', 'Luis Harris', 1010020002, 'ADIDAS@gmail.com', 'Clothing,Footwear')
+INTO prj_Store VALUES('M001-S003', 001, 'JORDAN', 'Kyson Bush', 1010030003, 'JORDAN@hotmail.com', 'Footwear')
+INTO prj_Store VALUES('M001-S004', 001, 'LACOSTE', 'Israel Nichols', 1010040004, 'LACOSTE@yahoo.com', 'Clothing,Footwear,Perfumes')
+INTO prj_Store VALUES('M001-S005', 001, 'CALVIN KLEIN', 'Karen Campbell', 1010050005, 'CALVINKLEIN@gmail.com', 'Clothing')
+INTO prj_Store VALUES('M002-S001', 002, 'PUMA', 'Aleah Castro', 1020010001, 'PUMA@hotmail.com', 'Clothing,Footwear')
+INTO prj_Store VALUES('M002-S002', 002, 'BOSS', 'Rylan Horn', 1020020002, 'BOSS@yahoo.com', 'Clothing,Perfumes')
+INTO prj_Store VALUES('M002-S003', 002, 'SAPHORA', 'Tristian Griffith', 1020030003, 'SAPHORA@hotmail.com', 'Perfumes,Makeup')
+INTO prj_Store VALUES('M002-S004', 002, 'BURBERRY', 'Edgar Austin', 1020040004, 'BURBERRY@hotmail.com', 'Clothing,Perfumes')
+INTO prj_Store VALUES('M002-S005', 002, 'ASTON MARTIN', 'Talon Lawson', 1020050005, 'ASTONMARTIN@yahoo.com', 'Clothing')
+INTO prj_Store VALUES('M003-S001', 003, 'LULULEMON', 'Zaid Owen', 1030010001, 'LULULEMON@gmail.com', 'Clothing')
+INTO prj_Store VALUES('M003-S002', 003, 'VERSACE', 'Frances Rodgers', 1030020002, 'VERSACE@yahoo.com', 'Perfumes')
+INTO prj_Store VALUES('M003-S003', 003, 'ARMANI', 'Colton Bowen', 1030030003, 'ARMANI@gmail.com', 'Perfumes, Clothing')
+INTO prj_Store VALUES('M003-S004', 003, 'OLD NAVY', 'Aliana Hall', 1030040004, 'OLDNAVY@gmail.com', 'Clothing')
+INTO prj_Store VALUES('M003-S005', 003, 'TOMMY HILFIGER', 'Gage Johnson', 1030050005, 'TOMMYHILFIGER@yahoo.com', 'Clothing')
+INTO prj_Store VALUES('M004-S001', 004, 'SPORTS CHECK', 'Andreas Crawford', 1040010001, 'SPORTSCHECK@hotmail.com', 'Clothing,Footwear')
+INTO prj_Store VALUES('M004-S002', 004, 'RAYMONDS', 'Heidi Baird', 1040020002, 'RAYMONDS@hotmail.com', 'Clothing')
+INTO prj_Store VALUES('M004-S003', 004, 'PETER ENGLAND', 'Anderson Williamson', 1040030003, 'PETERENGLAND@gmail.com', 'Clothing')
+INTO prj_Store VALUES('M004-S004', 004, 'LOURA', 'Delilah Ware', 1040030004, 'LAURA@hotmail.com', 'Clothing')
+INTO prj_Store VALUES('M004-S005', 004, 'CANADA GOOSE', 'Quinn Moss', 1040040005, 'CANADAGOOSE@gmail.com', 'Clothing')
+SELECT * FROM dual;
+
+
+
+CREATE TABLE prj_Employees (
+EmpID VARCHAR(20) NOT NULL,
+MallID INT NOT NULL,
+StoreID VARCHAR(30) DEFAULT NULL,
+EmpDesignation VARCHAR(30) NOT NULL,
+EmpFirstName VARCHAR(30) NOT NULL,
+EmpLastName VARCHAR(30) NOT NULL,
+EmpPhone NUMBER(10) NOT NULL,
+PRIMARY KEY (EmpID),
+CONSTRAINT emp_mall FOREIGN KEY (MallID) REFERENCES prj_MallDetails(MallID),
+CONSTRAINT emp_store FOREIGN KEY (StoreID) REFERENCES prj_Store(StoreID)
+);
+
+INSERT ALL 
+INTO prj_employees VALUES('E001',001,'M001-S001','salesRep','Nakul','Kar',1000000100)
+INTO prj_employees VALUES('E014',001,'M001-S002','casier','Raspinder','Kaur',1000000200)
+INTO prj_employees VALUES('E015',001,'M001-S003','salesRep','Ishita','Kaur',1000000300)
+INTO prj_employees VALUES('E008',001,'M001-S004','casier','Malik','Raza',1000000400)
+INTO prj_employees VALUES('E011',001,'M001-S005','salesRep','Anjali','Sharma',1000000500)
+INTO prj_employees VALUES('E018',001,'M001-S001','StoreManager','Macey','Key',1000000180)
+INTO prj_employees VALUES('E019',001,'M001-S002','StoreManager','Luis','Harris',1000000190)
+INTO prj_employees VALUES('E020',001,'M001-S002','StoreManager','Kyson','Bush',1000000210)
+INTO prj_employees VALUES('E002',002,'M002-S002','salesRep','Azer','Hassan',1000000600)
+INTO prj_employees VALUES('E009',002,'M002-S003','casier','Sumedha','Sam',1000000700)
+INTO prj_employees VALUES('E013',002,'M002-S004','salesRep','Neema','Sequiria',1000000800)
+INTO prj_employees VALUES('E021',002,'M002-S005','StoreManager','Aleah','Castro',1000000220)
+INTO prj_employees VALUES('E022',002,'M002-S001','StoreManager','Rylan','Horn',1000000230)
+INTO prj_employees VALUES('E023',002,'M002-S002','StoreManager','Talon','Lawson',1000000240)
+INTO prj_employees VALUES('E003',003,'M003-S003','casier','Dev','Pundir',1000000900)
+INTO prj_employees VALUES('E010',003,'M003-S001','salesRep','Rupinder','Bajwa',1000000110)
+INTO prj_employees VALUES('E016',003,'M003-S005','salesRep','Sheetal','Badwal',1000000120)
+INTO prj_employees VALUES('E024',003,'M003-S004','StoreManager','Aliana','Hall',1000000260)
+INTO prj_employees VALUES('E025',003,'M003-S005','StoreManager','Gage','Johnson',1000000250)
+INTO prj_employees VALUES('E017',003,'M003-S004','salesRep','Jahnavi','Sehdev',1000000130)
+INTO prj_employees VALUES('E004',004,'M004-S005','casier','Atul','Thakur',1000000140)
+INTO prj_employees VALUES('E005',004,'M004-S005','casier','Karan','Rana',1000000150)
+INTO prj_employees VALUES('E006',004,'M004-S002','StoreManager','Harsh','Lodhi',1000000160)
+INTO prj_employees VALUES('E007',004,'M004-S003','salesRep','Gurdit','Singh',1000000170)
+SELECT * FROM dual;
+
+
+
+
+CREATE TABLE prj_Maintaince (
+MaintainceID VARCHAR(20) NOT NULL,
+MallID INT NOT NULL,
+StoreID VARCHAR(30) DEFAULT NULL,
+MaintainceDate DATE NOT NULL,
+MaintainceDesc VARCHAR(100) NOT NULL,
+MaintainceCost DECIMAL(10,2) NOT NULL,
+PRIMARY KEY (MaintainceID),
+CONSTRAINT maintaince_mall FOREIGN KEY (MallID) REFERENCES prj_MallDetails(MallID),
+CONSTRAINT maintaince_store FOREIGN KEY (StoreID) REFERENCES prj_Store(StoreID)
+);
+
+INSERT ALL 
+INTO prj_maintaince VALUES('MT-001',001,'M001-S001','2009-12-06','A minor defect in the window of store',499)
+INTO prj_maintaince VALUES('MT-008',001,'M001-S004','2022-07-19','Floor tiles changed at back of store',2499)
+INTO prj_maintaince VALUES('MT-013',001,'M001-S002','2016-11-19','Minor water leakage fixed',199)
+INTO prj_maintaince VALUES('MT-016',001,'M001-S003','2022-02-21','Electric issue resolved',300)
+INTO prj_maintaince VALUES('MT-002',002,'M002-S002','2012-06-26','Ventilation affected of the store',1099)
+INTO prj_maintaince VALUES('MT-005',002,'M002-S001','2017-01-05','Front Lights changed',480)
+INTO prj_maintaince VALUES('MT-007',002,'M002-S003','2018-04-06','Dusting',199)
+INTO prj_maintaince VALUES('MT-010',002,'M002-S003','2019-03-18','POS updated and installed',7499)
+INTO prj_maintaince VALUES('MT-014',002,'M002-S004','2023-02-02','Painting the whole store',10199)
+INTO prj_maintaince VALUES('MT-017',002,'M002-S004','2022-02-21','Front desk and chair fixed',889)
+INTO prj_maintaince VALUES('MT-003',003,'M003-S003','2014-01-14','Deep Cleaning',799)
+INTO prj_maintaince VALUES('MT-006',003,'M003-S002','2015-05-01','Electric wiring changed',1499)
+INTO prj_maintaince VALUES('MT-015',003,'M003-S003','2023-01-15','Broken Shelves(Steel-made) fixed',899)
+INTO prj_maintaince VALUES('MT-018',003,'M003-S002','2022-02-21','Ceiling repaired',2344)
+INTO prj_maintaince VALUES('MT-019',003,'M003-S001','2022-02-21','vetilation purified',800)
+INTO prj_maintaince VALUES('MT-004',004,'M004-S004','2014-12-14','Glass Pane Broken',599)
+INTO prj_maintaince VALUES('MT-009',004,'M004-S004','2021-08-23','Shelf Fixed',399)
+INTO prj_maintaince VALUES('MT-011',004,'M004-S002','2017-11-20','Pest Control',399)
+INTO prj_maintaince VALUES('MT-012',004,'M004-S001','2018-10-14','Lights Replaced for whole store',1899)
+INTO prj_maintaince VALUES('MT-020',004,'M004-S002','2022-02-21','Front sign fixed',1199)
+SELECT * FROM DUAL;
+
+
+CREATE TABLE prj_Orders(
+OrderID VARCHAR(20) NOT NULL,
+StoreID VARCHAR(30) DEFAULT NULL,
+OrderQuantity INT NOT NULL,
+OrderDate DATE NOT NULL,
+OrderCost DECIMAL(15,2) NOT NULL,
+PRIMARY KEY (OrderID),
+CONSTRAINT Order_store FOREIGN KEY (StoreID) REFERENCES prj_Store(StoreID)
+);
+
+INSERT ALL 
+INTO prj_orders VALUES('OR-001','M001-S001', 40, '2020-02-22',49000)
+INTO prj_orders VALUES('OR-002','M001-S002', 55, '2017-12-03',56690)
+INTO prj_orders VALUES('OR-003','M001-S003', 100, '2018-03-14',90000)
+INTO prj_orders VALUES('OR-004','M001-S004', 80, '2008-07-16',79900)
+INTO prj_orders VALUES('OR-005','M001-S005', 60, '2023-09-26',50099)
+
+INTO prj_orders VALUES('OR-006','M002-S001', 90, '2022-08-15',95000)
+INTO prj_orders VALUES('OR-007','M002-S002', 77, '2020-06-23',55000)
+INTO prj_orders VALUES('OR-008','M002-S003', 70, '2021-09-27',80009)
+INTO prj_orders VALUES('OR-009','M002-S004', 100, '2022-10-21',90000)
+INTO prj_orders VALUES('OR-010','M002-S005', 89, '2023-12-19',78000)
+
+INTO prj_orders VALUES('OR-011','M003-S001', 30, '2019-11-30',25000)
+INTO prj_orders VALUES('OR-012','M003-S002', 45, '2018-07-21',35000)
+INTO prj_orders VALUES('OR-013','M003-S003', 56, '2021-09-22',52000)
+INTO prj_orders VALUES('OR-014','M003-S004', 70, '2022-03-04',65000)
+INTO prj_orders VALUES('OR-015','M003-S005', 49, '2020-03-09',45000)
+
+INTO prj_orders VALUES('OR-016','M004-S001', 48, '2023-08-12',45000)
+INTO prj_orders VALUES('OR-017','M004-S002', 110, '2022-05-28',12000)
+INTO prj_orders VALUES('OR-018','M004-S003', 66, '2018-09-16',60000)
+INTO prj_orders VALUES('OR-019','M004-S004', 75, '2019-12-26',71000)
+INTO prj_orders VALUES('OR-020','M004-S005', 90, '2023-09-01',10000)
+SELECT * FROM DUAL;
+
+
+CREATE TABLE prj_Inventory(
+ProdID VARCHAR(20) NOT NULL,
+StoreID VARCHAR(30) NOT NULL,
+ProdQuantity INT NOT NULL,
+ProdDescription VARCHAR(50) NOT NULL,
+ProdCost DECIMAL(10,2) NOT NULL,
+PRIMARY KEY (ProdID),
+CONSTRAINT inventory_store FOREIGN KEY (StoreID) REFERENCES prj_Store(StoreID)
+);
+
+INSERT ALL 
+INTO prj_inventory VALUES('P001','M001-S001',155,'Shoes',1200)
+INTO prj_inventory VALUES('P002','M001-S002',145,'Jackets',1500)
+INTO prj_inventory VALUES('P003','M001-S003',120,'Shoes',1000)
+INTO prj_inventory VALUES('P004','M001-S004',100,'Shirts',650)
+INTO prj_inventory VALUES('P005','M001-S005',110,'Hoodies',500)
+INTO prj_inventory VALUES('P006','M002-S001',132,'Shoes',500)
+INTO prj_inventory VALUES('P007','M002-S002',175,'Jackets',1600)
+INTO prj_inventory VALUES('P008','M002-S003',178,'Gold facial',10)
+INTO prj_inventory VALUES('P009','M002-S004',165,'Perfumes',100)
+INTO prj_inventory VALUES('P010','M002-S005',150,'Jackets',1200)
+INTO prj_inventory VALUES('P011','M003-S001',50,'Shoes',500)
+INTO prj_inventory VALUES('P012','M003-S002',75,'Womens perfumes',100)
+INTO prj_inventory VALUES('P013','M003-S003',160,'Jackets',1150)
+INTO prj_inventory VALUES('P014','M003-S004',195,'Shirts',450)
+INTO prj_inventory VALUES('P015','M003-S005',250,'Trousers',600)
+INTO prj_inventory VALUES('P016','M004-S001',168,'Trek-suit',1100)
+INTO prj_inventory VALUES('P017','M004-S002',300,'Shirts',800)
+INTO prj_inventory VALUES('P018','M004-S003',100,'Blazers',2600)
+INTO prj_inventory VALUES('P019','M004-S004',140,'Shirts',300)
+INTO prj_inventory VALUES('P020','M004-S005',130,'Winter Jackets',1099)
+INTO prj_inventory VALUES('P021','M001-S001',500,'Hoodies',399)
+INTO prj_inventory VALUES('P022','M003-S005',750,'Mens Cologne',199)
+SELECT * FROM DUAL;
+
+
+CREATE TABLE prj_Sales(
+SalesID VARCHAR(20) NOT NULL,
+StoreID VARCHAR(30) NOT NULL,
+SalesDate DATE NOT NULL,
+SalesAmount DECIMAL(15,2) NOT NULL,
+SoldQuantity INT NOT NULL,
+PRIMARY KEY (SalesID),
+CONSTRAINT sales_store FOREIGN KEY (StoreID) REFERENCES prj_Store(StoreID)
+);
+
+INSERT ALL 
+INTO prj_sales VALUES('SL001','M001-S001','2020-11-06',155,1)
+INTO prj_sales VALUES('SL002','M001-S002','2020-12-17',145,2)
+INTO prj_sales VALUES('SL003','M001-S003','2020-12-12',495,4)
+INTO prj_sales VALUES('SL004','M001-S005','2021-01-09',139,2)
+INTO prj_sales VALUES('SL005','M001-S004','2021-01-17',120,1)
+INTO prj_sales VALUES('SL006','M002-S001','2021-03-27',450,3)
+INTO prj_sales VALUES('SL007','M002-S002','2021-03-24',125,7)
+INTO prj_sales VALUES('SL008','M002-S003','2021-04-23',159,3)
+INTO prj_sales VALUES('SL009','M002-S004','2021-05-05',479,4)
+INTO prj_sales VALUES('SL010','M002-S005','2021-06-10',250,6)
+INTO prj_sales VALUES('SL011','M003-S001','2021-08-12',239,3)
+INTO prj_sales VALUES('SL012','M003-S002','2021-08-13',279,4)
+INTO prj_sales VALUES('SL013','M003-S003','2022-09-16',129,3)
+INTO prj_sales VALUES('SL014','M003-S004','2022-01-27',29,1)
+INTO prj_sales VALUES('SL015','M003-S005','2022-02-16',39,4)
+INTO prj_sales VALUES('SL016','M004-S001','2022-03-14',452,2)
+INTO prj_sales VALUES('SL017','M004-S002','2022-03-24',1050,8)
+INTO prj_sales VALUES('SL018','M004-S003','2022-04-25',579,7)
+INTO prj_sales VALUES('SL019','M004-S004','2023-01-21',219,6)
+INTO prj_sales VALUES('SL020','M004-S005','2023-01-30',419,5)
+INTO prj_sales VALUES('SL021','M001-S001','2023-02-01',585,2)
+INTO prj_sales VALUES('SL022','M002-S002','2023-02-10',263,2)
+INTO prj_sales VALUES('SL023','M003-S005','2023-02-12',559,1)
+SELECT * FROM DUAL;

@@ -1,0 +1,304 @@
+-- Procedures for updating, deleting, inserting records into database
+
+-- procedure for selecting Store details
+
+create or replace PROCEDURE spPRJ_StoreSELECT(
+    err_code OUT INTEGER,
+  mall_id OUT PRJ_STORE.mallid%TYPE,
+  store_name OUT PRJ_STORE.storename%TYPE,
+  store_contactname OUT PRJ_STORE.storecontactname%TYPE,
+  store_phone OUT PRJ_STORE.storephone%TYPE,
+  store_mail OUT PRJ_STORE.storemail%TYPE,
+  store_type OUT PRJ_STORE.storetype%TYPE,
+   store_id IN PRJ_STORE.storeid%TYPE
+)AS
+   
+BEGIN
+    SELECT  mallid, storename, storecontactname, storephone, storemail, storetype
+    INTO  mall_id, store_name, store_contactname, store_phone, store_mail, store_type
+    FROM PRJ_STORE
+    WHERE storeid = store_id; 
+
+err_code := sql%rowcount;
+EXCEPTION
+  WHEN OTHERS THEN
+  err_code := -1;
+
+END spPRJ_StoreSELECT;
+
+
+-- procedure for inserting a new Store
+
+create or replace PROCEDURE spPRJ_StoreInsert (
+  err_code OUT INTEGER,
+  store_id IN PRJ_STORE.storeid%TYPE,
+  mall_id IN PRJ_STORE.mallid%TYPE,
+  store_name IN PRJ_STORE.storename%TYPE,
+  store_contactname IN PRJ_STORE.storecontactname%TYPE,
+  store_phone IN PRJ_STORE.storephone%TYPE,
+  store_mail IN PRJ_STORE.storemail%TYPE,
+  store_type IN PRJ_STORE.storetype%TYPE
+)
+AS
+BEGIN
+  INSERT INTO PRJ_STORE(
+    storeid,
+    mallid,
+    storename,
+    storecontactname,
+    storephone,
+    storemail,
+    storetype
+  ) VALUES (
+    store_id,
+    mall_id,
+    store_name,
+    store_contactname,
+    store_phone,
+    store_mail,
+    store_type
+  );
+  err_code := sql%rowcount;
+  COMMIT;
+EXCEPTION
+  WHEN OTHERS THEN
+  err_code:= -1;
+END spPRJ_StoreInsert;
+
+
+
+-- procedure for deleting any existing Store
+
+create or replace PROCEDURE spPRJ_StoreDelete (
+  err_code OUT INTEGER,
+  store_id IN PRJ_STORE.storeid%TYPE
+)
+AS
+BEGIN
+  DELETE FROM PRJ_Store WHERE storeid = store_id;
+  err_code := sql%rowcount;
+  COMMIT;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+  err_code:= -1;
+  WHEN OTHERS THEN
+  err_code:= -2;
+END spPRJ_StoreDelete;
+
+
+
+-- procedure for updating store contact of a specific Store
+
+create or replace PROCEDURE psPRJ_STOREUPDATE (
+    err_code OUT INTEGER,
+    store_id IN PRJ_STORE.storeid%TYPE,
+    updated_value IN PRJ_STORE.storecontactname%TYPE
+)AS
+BEGIN
+    UPDATE PRJ_STORE
+    SET storecontactname = updated_value
+    WHERE storeid = store_id;
+    err_code := sql%rowcount;
+  COMMIT;
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+  err_code:= -1;
+  WHEN OTHERS THEN
+  err_code:= -2;
+END psPRJ_STOREUPDATE ;
+
+
+
+-- procedure for selecting employee details
+
+create or replace PROCEDURE spPRJ_EMPLOYEESSELECT(
+    err_code OUT INTEGER,
+
+  MALL_ID OUT PRJ_EMPLOYEES.MALLID%TYPE,
+  STORE_ID OUT PRJ_EMPLOYEES.STOREID%TYPE,
+  EMP_DESIGNATION OUT PRJ_EMPLOYEES.EMPDESIGNATION%TYPE,
+  EMP_FIRSTNAME OUT PRJ_EMPLOYEES.EMPFIRSTNAME%TYPE,
+  EMP_LASTNAME OUT PRJ_EMPLOYEES.EMPLASTNAME%TYPE,
+  EMP_PHONE OUT PRJ_EMPLOYEES.EMPPHONE%TYPE, 
+  EMP_ID  IN PRJ_EMPLOYEES.EMPID%TYPE
+)AS
+   
+BEGIN
+    SELECT MALLID, STOREID, EMPDESIGNATION, EMPFIRSTNAME, EMPLASTNAME, EMPPHONE
+    INTO  mall_id, STORE_ID, EMP_DESIGNATION, EMP_FIRSTNAME, EMP_LASTNAME, EMP_PHONE
+    FROM PRJ_EMPLOYEES
+    WHERE EMPID = EMP_ID;   
+
+EXCEPTION
+  WHEN OTHERS THEN
+  err_code:= -1;
+
+
+END spPRJ_EMPLOYEESSELECT;
+
+
+
+-- procedure for inserting employee.
+
+create or replace PROCEDURE spPRJ_EMPLOYEESInsert (
+  err_code OUT INTEGER,
+  EMP_ID IN PRJ_EMPLOYEES.EMPID%TYPE,
+  MALL_ID IN PRJ_EMPLOYEES.MALLID%TYPE,
+  STORE_ID IN PRJ_EMPLOYEES.STOREID%TYPE,
+  EMP_DESIGNATION IN PRJ_EMPLOYEES.EMPDESIGNATION%TYPE,
+  EMP_FIRSTNAME IN PRJ_EMPLOYEES.EMPFIRSTNAME%TYPE,
+  EMP_LASTNAME IN PRJ_EMPLOYEES.EMPLASTNAME%TYPE,
+  EMP_PHONE IN PRJ_EMPLOYEES.EMPPHONE%TYPE
+)
+AS
+BEGIN
+  INSERT INTO PRJ_EMPLOYEES(
+    EMPID,
+    MALLID,
+    STOREID,
+    EMPDESIGNATION,
+    EMPFIRSTNAME,
+    EMPLASTNAME,
+    EMPPHONE
+  ) VALUES (
+    EMP_ID,
+    MALL_ID,
+    STORE_ID,
+    EMP_DESIGNATION,
+    EMP_FIRSTNAME,
+    EMP_LASTNAME,
+    EMP_PHONE
+  );
+  err_code := sql%rowcount;
+  COMMIT;
+EXCEPTION
+  WHEN OTHERS THEN
+  err_code:= -1;
+END spPRJ_EMPLOYEESInsert;
+
+
+-- procedure for deleting employee.
+
+create or replace PROCEDURE spPRJ_EmployeesDelete (
+  err_code OUT INTEGER,
+  emp_id IN PRJ_EMPLOYEES.empid%TYPE
+)
+AS
+BEGIN
+  DELETE FROM PRJ_EMPLOYEES WHERE EMPID = EMP_ID;
+  err_code := sql%rowcount;
+  COMMIT;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+  err_code:= -1;
+  WHEN OTHERS THEN
+  err_code:= -2;
+END spPRJ_EMPLOYEESDelete;
+
+
+-- procedure for updating employee.
+
+create or replace PROCEDURE spPRJ_EMPLOYEESUPDATE(
+err_code OUT INTEGER,
+EMP_ID IN PRJ_EMPLOYEES.EMPID%type,
+EMP_DESIGNATION IN PRJ_EMPLOYEES.EMPDESIGNATION%type)AS
+BEGIN
+UPDATE PRJ_EMPLOYEES SET EMPDESIGNATION=EMP_DESIGNATION
+WHERE EMPID=EMP_ID;
+err_code := sql%rowcount;
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS
+THEN err_code:= -1;
+
+END;
+
+
+-- procedure for inserting new product.
+
+create or replace PROCEDURE spINVENTORYINSERT(
+
+err_code OUT INTEGER,
+PROD_ID IN PRJ_INVENTORY.PRODID%type,
+STORE_ID IN PRJ_INVENTORY.STOREID%type,
+PROD_QUANTITY IN PRJ_INVENTORY.PRODQUANTITY%type,
+PROD_DESCRIPTION IN PRJ_INVENTORY.PRODDESCRIPTION%type,
+PROD_COST IN PRJ_INVENTORY.PRODCOST%type
+)AS
+BEGIN
+    INSERT INTO PRJ_INVENTORY (PRODID, STOREID,PRODQUANTITY,PRODDESCRIPTION,PRODCOST)
+        VALUES(PROD_ID, STORE_ID,PROD_QUANTITY,PROD_DESCRIPTION,PROD_COST);
+
+err_code :=sql%rowcount;
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS
+THEN err_code := -1;
+
+END;
+
+
+-- procedure for selecting a product.
+
+create or replace PROCEDURE spINVENTORYSELECT(
+    err_code OUT INTEGER,
+    STORE_ID OUT PRJ_INVENTORY.STOREID%type,
+    PROD_QUANTITY OUT PRJ_INVENTORY.PRODQUANTITY%type,
+    PROD_DESCRIPTION OUT PRJ_INVENTORY.PRODDESCRIPTION%type,
+    PROD_COST OUT PRJ_INVENTORY.PRODCOST%type,
+    PROD_ID IN PRJ_INVENTORY.PRODID%type
+)AS
+BEGIN
+
+  SELECT  STOREID,PRODQUANTITY, PRODDESCRIPTION, PRODCOST
+  INTO  STORE_ID, PROD_QUANTITY, PROD_DESCRIPTION, PROD_COST
+  FROM PRJ_INVENTORY
+  WHERE PRODID = PROD_ID;
+
+  err_code := sql%rowcount;
+
+ EXCEPTION
+    WHEN OTHERS THEN
+      err_code := -1;
+END spINVENTORYSELECT;
+
+
+-- procedure for deleting a sale record.
+
+create or replace PROCEDURE SPSALESDELETE(
+err_code out integer,
+SALES_ID IN PRJ_SALES.SALESID%type
+) AS
+BEGIN
+DELETE FROM PRJ_SALES
+WHERE SALESID=SALES_ID;
+
+ err_code := sql%rowcount;
+  COMMIT;
+EXCEPTION
+  WHEN OTHERS THEN
+  err_code:= -1;
+END SPSALESDELETE;
+
+
+-- procedure for updating a sale record.
+
+create or replace PROCEDURE spSALESUPDATE(
+err_code OUT INTEGER,
+SALES_ID IN PRJ_SALES.SALESID%type,
+SOLD_QUANTITY IN PRJ_SALES.SOLDQUANTITY%type
+)AS
+BEGIN
+UPDATE PRJ_SALES SET SOLDQUANTITY=SOLD_QUANTITY
+WHERE SALESID=SALES_ID;
+err_code := sql%rowcount;
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS
+THEN err_code:= -1;
+
+END;
